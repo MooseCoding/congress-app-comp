@@ -1,0 +1,6 @@
+{
+    "imports": {
+      "@components/": "./components/",
+      "@lib/": "./lib/"
+    }
+  }

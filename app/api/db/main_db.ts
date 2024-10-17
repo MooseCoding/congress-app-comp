@@ -1,7 +1,7 @@
 // imports
 import { DB } from "https://deno.land/x/sqlite/mod.ts";
-import { saveAlertEvents, fetchAlertEvents} from "./alerts.ts";
-import { saveForecastEvents, fetchForecastData} from "./forecast.ts";
+import {fetchAndSaveAlerts, testSaving} from "./alerts.ts";
+import {fetchAndSaveForecasts} from './forecast.ts';
 
 // Define the database
 const createAlertQuery = `
@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS alerts (
     event_type TEXT,
     title TEXT,
     description TEXT,
-    start_time TEXT,
-    end_time TEXT,
+    start_time DATE,
+    end_time DATE,
     link TEXT,
     location TEXT,
     severity TEXT,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS weather_forecasts (
     precipitation REAL,
     description TEXT,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(alert_type, forecast_time)
+    UNIQUE(temperature, forecast_time)
 );`;
 
 const createLocationTableQuery = `
@@ -60,17 +60,11 @@ function initDatabase() {
 function removeExpiredEvents(db: DB, expired: DB) { // also puts those events in an expired registry for a few days
 }
 
-async function main() {
+export async function main() {
   const db = initDatabase();
-  const events = await fetchAlertEvents();
-  saveAlertEvents(db, events);
+  const result = await fetchAndSaveAlerts(db); 
+  //const res = await fetchAndSaveForecasts(db); 
 
-  const forecasts = await fetchForecastData();
-  saveForecastEvents(db, forecasts); 
-
-  //const _result = await saveCensusData(db);
-
-  db.close();
+  //db.close(); 
 }
 
-main().catch(console.error);

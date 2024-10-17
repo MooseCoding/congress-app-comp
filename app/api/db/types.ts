@@ -23,7 +23,7 @@ export interface references {
 export interface Properties {
   api: string;
   type: string;
-  id: string;
+  id:  string;
   areaDesc: string; // we want these guys too
   geocode: geocode;
   affectedZones: string[];

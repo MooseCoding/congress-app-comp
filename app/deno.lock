@@ -9,12 +9,15 @@
     }
   },
   "redirects": {
+    "https://deno.land/std/http/server.ts": "https://deno.land/std@0.224.0/http/server.ts",
     "https://deno.land/x/sqlite/mod.ts": "https://deno.land/x/sqlite@v3.9.1/mod.ts"
   },
   "remote": {
     "https://deno.land/std@0.212.0/dotenv/mod.ts": "46cc7a78cf3f7ba533c8c9b90407a365f925be332ebdc867a1f502614e3d8523",
     "https://deno.land/std@0.212.0/dotenv/parse.ts": "55d5d1a5ba76c1324e6dc2f2f7917f03c47e5da5c2c55af11fd0fe2d6a3d3a2e",
     "https://deno.land/std@0.212.0/dotenv/stringify.ts": "0047ad7068289735d08964046aea267a750c141b494ca0e38831b89be6c020c2",
+    "https://deno.land/std@0.224.0/async/delay.ts": "f90dd685b97c2f142b8069082993e437b1602b8e2561134827eeb7c12b95c499",
+    "https://deno.land/std@0.224.0/http/server.ts": "f9313804bf6467a1704f45f76cb6cd0a3396a3b31c316035e6a4c2035d1ea514",
     "https://deno.land/x/sqlite@v3.9.1/build/sqlite.js": "2afc7875c7b9c85d89730c4a311ab3a304e5d1bf761fbadd8c07bbdf130f5f9b",
     "https://deno.land/x/sqlite@v3.9.1/build/vfs.js": "7f7778a9fe499cd10738d6e43867340b50b67d3e39142b0065acd51a84cd2e03",
     "https://deno.land/x/sqlite@v3.9.1/mod.ts": "e09fc79d8065fe222578114b109b1fd60077bff1bb75448532077f784f4d6a83",
@@ -28,16 +31,24 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@radix-ui/react-navigation-menu@^1.2.1",
+        "npm:@radix-ui/react-slot@^1.1.0",
         "npm:@types/node@20",
         "npm:@types/react-dom@18",
         "npm:@types/react@18",
+        "npm:autoprefixer@^10.4.20",
+        "npm:class-variance-authority@0.7",
+        "npm:clsx@^2.1.1",
         "npm:eslint-config-next@14.2.15",
         "npm:eslint@8",
+        "npm:lucide-react@0.453",
         "npm:next@14.2.15",
-        "npm:postcss@8",
+        "npm:postcss@^8.4.47",
         "npm:react-dom@18",
         "npm:react@18",
-        "npm:tailwindcss@^3.4.1",
+        "npm:tailwind-merge@^2.5.4",
+        "npm:tailwindcss-animate@^1.0.7",
+        "npm:tailwindcss@^3.4.14",
         "npm:typescript@5"
       ]
     }
