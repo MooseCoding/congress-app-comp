@@ -2,12 +2,10 @@
 import { DB } from "https://deno.land/x/sqlite/mod.ts";
 
 // Initialize the DB instance once and reuse it
-const dbPath = './db/weather_events.db';
-const db = new DB(dbPath);  // Reuse this instance
+export const db = new DB('./db/weather_events.db');  // Reuse this instance
 
 export async function allAlerts() {
-    console.log('get all alerts'); 
-    const data = db.query(`SELECT * FROM alerts`);
+    const data = await db.query(`SELECT * FROM alerts`);
 
     const result = data.map((row) => {
         return {
@@ -26,7 +24,6 @@ export async function allAlerts() {
         };
     });
 
-    console.log(result); 
     return result;
 }
 
@@ -78,4 +75,17 @@ export async function getForecastsCol(col: string) {
     }
     
     return forecasts; 
+}
+
+export async function clearExpiredAlerts() {
+    const rows = await db.query('SELECT id, end_time FROM alerts;');
+    const currentDate = new Date().toISOString(); 
+
+    for (const [id, end_time] of rows) {
+        const endDate = new Date(end_time).toISOString();
+        console.log(id); 
+        if (endDate < currentDate) {
+            const result = await db.query(`DELETE FROM alerts WHERE id = ?;`, id);
+        }
+    }
 }

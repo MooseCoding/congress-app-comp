@@ -6,3 +6,17 @@ export interface Team {
     skill: number;
     notes: string; 
 }
+
+export interface Site {
+    name: string;
+    city: string;
+    state: string;
+    event: string;
+    deployment_number: number;
+    resources: string;
+    expertise: string;
+    deplyoment_length: number; 
+    priority: number;
+    assistance: string; 
+    teamAssigned: Team; 
+}

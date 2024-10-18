@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
+import { APIButton } from '../components/APIButton';
 import Header from '../components/Header';
 import StormSeverityCard from '../components/StormSeverityCard';
-import {getAlerts} from './api/alerts.ts'; 
-import { Button } from '../components/ui/Button';
-import {APIButton} from '../components/APIButton'; 
+import NavBar from '../components/NavBar'; 
 
 const Home = () => {
     const [storms, setStorms] = useState([]);
@@ -19,18 +18,20 @@ const Home = () => {
 
     return (
         <div className="flex flex-col items-center">
+            <NavBar />
             <Header />
             <main className="flex flex-wrap justify-center mt-4">
                 {storms.map((storm) => (
                     <StormSeverityCard
                         key={storm.id}
                         location={storm.location}
+                        city={storm.city}
                         severity={storm.severity}
                         aidNeeded={storm.aidNeeded}
+                        teamName={storm.teamName}
                     />
                 ))}
             </main>
-            <APIButton />
         </div>
     );
 };

@@ -16,7 +16,6 @@ export const getAlerts = async () => {
         throw new Error(errorData.error || 'Unknown error');
       }
       const data = await response.json();
-      console.log('Fetched data:', data);
       return data;
     } catch (error) {
       console.error('Error fetching alerts:', error);

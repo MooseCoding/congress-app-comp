@@ -6,7 +6,7 @@ interface StormSeverityCardProps {
     aidNeeded:string;
 }
 
-const StormSeverityCard: FC<StormSeverityCardProps> =({ location, severity, aidNeeded}) =>{
+const StormSeverityCard: FC<StormSeverityCardProps> =({ location, city, severity, aidNeeded, teamName}) =>{
     let alertClass = 'bg-blue-100 text-blue-800';
 
     if(severity >= 8) {
@@ -18,11 +18,13 @@ const StormSeverityCard: FC<StormSeverityCardProps> =({ location, severity, aidN
 
     return (
         <div className="p-4 m-2 bg-white shadow rounded-lg">
-            <h2 className="text-xl">{location}</h2>
+            <h2 className="text-xl">{city}</h2>
+            <h4>{location}</h4>
             <div className={`p-2 rounded ${alertClass}`}>
                 Severity Level: {severity}
             </div>
             <p>Assistance Needed: {aidNeeded}</p>
+            <p>Team assinged: {teamName}</p>
         </div>
     );
 };

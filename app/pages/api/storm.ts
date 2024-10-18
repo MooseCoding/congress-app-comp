@@ -13,10 +13,10 @@ export interface Storm {
 }
 
 const storms = [
-    {id: 1, location:"Florida", severity:9, aidNeeded: "Evacuation"},
-    {id: 2, location:"Texas", severity:6, aidNeeded: "Food and shelter"},
-    {id: 3, location: "California", severity: 3, aidNeeded: "Monitoring"},
-    {id: 4, location: "Arizona", severity:5, aidNeeded:"Heat"},
+    {id: 1, location:"Florida", city: "Naples and Ft Myers", severity:9, aidNeeded: "Evacuation", teamName:"Alpha"},
+    {id: 2, location:"Texas", city: "Houston", severity:6, aidNeeded: "Food and shelter", teamName:"Epsilon"},
+    {id: 3, location: "California", city: "San Francisco", severity: 3, aidNeeded: "Monitoring", teamName: "Delta"},
+    {id: 4, location: "Arizona", city: "Phoenix", severity:5, aidNeeded:"Heat", teamName:"Gamma"},
 ]
 
 export default function handler(req: NextApiRequest, res:NextApiResponse) {

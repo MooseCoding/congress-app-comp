@@ -1,14 +1,17 @@
 import { DB } from "https://deno.land/x/sqlite/mod.ts";
 
+
+
 // Get current weather events
-export async function fetchAndSaveAlerts(db: DB){
+export async function fetchAndSaveAlerts(){
+    const db = new DB('./db/weather_events.db');
     const response = await fetch("https://api.weather.gov/alerts/active");
     const data: Features = await response.json();
-    saveAlertEvents(db, data.features); 
+    const result = await saveAlertEvents(db, data.features); 
 }
 
-function isEventAlready(db: DB, date: Date, location: string) {
-    const events = db.query(`SELECT COUNT(*) FROM alerts WHERE start_time = ? AND location = ?;`, [date, location]);
+async function isEventAlready(db:DB, date: Date, location: string) {
+    const events = await db.query(`SELECT COUNT(*) FROM alerts WHERE start_time = ? AND location = ?;`, [date, location]);
     if (events[0][0] > 0) {
         return true;
     }
@@ -16,12 +19,12 @@ function isEventAlready(db: DB, date: Date, location: string) {
 }
 
 // Save current weather events into the database
-export async function saveAlertEvents(db: DB, events: Features[]) {
+export async function saveAlertEvents(db:DB, events: Features[]) {
     const insertQuery = `
     INSERT INTO alerts (event_type, title, description, start_time, end_time, link, location, severity, urgency, headline, entry_time)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
-    const severeAlerts = ["Hurricane Warning", "Tornado Warning", "Flood Warning", "Hurricane Watch"]; 
+    const severeAlerts = ["Hurricane Warning", "Tornado Warning", "Flood Warning", "Red Flag Weather"]; 
     for (const event of events) {
         if (!isEventAlready(db, event.properties.effective, event.properties.areaDesc) && severeAlerts.includes(event.properties.event)) {
             const eventType = event.properties.messageType; 
@@ -57,7 +60,7 @@ export async function saveAlertEvents(db: DB, events: Features[]) {
     }
 }
 
-export async function testSaving(db: DB) {
+export async function testSaving() {
     const insertQuery = `
     INSERT INTO alerts (event_type, title, description, start_time, end_time, link, location, severity, urgency, headline, entry_time)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *;

@@ -63,8 +63,6 @@ function removeExpiredEvents(db: DB, expired: DB) { // also puts those events in
 export async function main() {
   const db = initDatabase();
   const result = await fetchAndSaveAlerts(db); 
-  //const res = await fetchAndSaveForecasts(db); 
-
-  //db.close(); 
+  
 }
 
