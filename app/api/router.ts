@@ -12,8 +12,9 @@ const handler = (req: Request): Response => {
     });
   }
 
-  if (req.url.endsWith("/api/alerts")) {
-    return new Response(JSON.stringify({ alerts: ["Test Alert"] }), {
+  // Replace /api/alerts with /test
+  if (req.url.endsWith("/test")) {
+    return new Response(JSON.stringify({ message: "Test route is working!" }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

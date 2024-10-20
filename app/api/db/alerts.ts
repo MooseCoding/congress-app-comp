@@ -1,10 +1,9 @@
 import { DB } from "https://deno.land/x/sqlite/mod.ts";
 
-
-
 // Get current weather events
 export async function fetchAndSaveAlerts(){
-    const db = new DB('./db/weather_events.db');
+    console.log('new alerts?');
+    const db = new DB('weather_events.db');
     const response = await fetch("https://api.weather.gov/alerts/active");
     const data: Features = await response.json();
     const result = await saveAlertEvents(db, data.features); 

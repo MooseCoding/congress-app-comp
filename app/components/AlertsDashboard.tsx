@@ -18,7 +18,7 @@ const AlertsDashboard: React.FC = ({alerts}) => {
     const hurricaneAlerts = [];
     const tornadoAlerts = [];
 
-    for (alert of sortedAlerts) {
+    for (const alert of sortedAlerts) {
         if (alert.title === 'Hurricane Warning') {
             fireAlerts.push(alert);
         }

@@ -16,7 +16,7 @@ export default function Page() {
     const fetchAlerts = async () => {
       try {
         setLoading(true);
-        const data = await getAlerts(); // Call your fetch function
+        const data = getAlerts(); // Call your fetch function
         setAlerts(data); // Store the fetched data in state
       } catch (err: any) {
         setError(err.message); // Handle errors
@@ -46,17 +46,3 @@ export default function Page() {
         </div>
     );
 }
-
-/*
-alerts.map((alert) => (
-                <AlertCard
-                    key={alert.id}
-                    location={alert.location}
-                    description={alert.description}
-                    title={alert.title}
-                    effective={new Date(alert.start_time)}
-                    endTime={new Date(alert.end_time)}
-                    severity={alert.severity}
-                />
-            ))}
-*/

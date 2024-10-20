@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from './ui/Button';
 import { Input } from './ui/input'; 
 
-const UserForm = () => {
+const ManagementSignUp = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ const UserForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const userData = {
+    const signupData = {
       username,
       password,
       email,
@@ -19,23 +19,23 @@ const UserForm = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/api/users', {
+      const response = await fetch('http://localhost:8000/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(signupData),
       });
 
       if (response.ok) {
-        alert('User data saved successfully!');
+        alert('Signup successful! You can now log in.');
         // Reset form fields
         setUsername('');
         setPassword('');
         setEmail('');
         setPhone('');
       } else {
-        alert('Failed to save user data.');
+        alert('Failed to sign up. Please try again.');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -44,7 +44,7 @@ const UserForm = () => {
 
   return (
     <div className='max-w-lg mx-auto mt-10 p-6 bg-gray-100 rounded-lg shadow-lg'>
-      <h2 className='text-xl font-bold mb-4 text-center'>Management Registration</h2>
+      <h2 className='text-xl font-bold mb-4 text-center'>Sign Up</h2>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <div className="flex flex-col">
           <label className="mb-1 text-gray-700">Username</label>
@@ -94,16 +94,12 @@ const UserForm = () => {
           />
         </div>
 
-        <Button type="submit" className="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-          Submit
-        </Button>
-
         <Button type="submit" className="mt-4 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
-          Sign-Up
+          Sign Up
         </Button>
       </form>
     </div>
   );
 };
 
-export default UserForm;
+export default ManagementSignUp;

@@ -1,12 +1,7 @@
 import { FC } from "react";
+import {Site} from '../pages/api/types.ts';
 
-interface StormSeverityCardProps {
-    location: string;
-    severity: number;
-    aidNeeded:string;
-}
-
-const StormSeverityCard: FC<StormSeverityCardProps> =({ location, city, severity, aidNeeded, teamName}) =>{
+const StormSeverityCard: FC<Site> =({s: site}) =>{
     let alertClass = 'bg-blue-100 text-blue-800';
 
     if(severity >= 8) {
@@ -18,13 +13,18 @@ const StormSeverityCard: FC<StormSeverityCardProps> =({ location, city, severity
 
     return (
         <div className="p-4 m-2 bg-white shadow rounded-lg">
-            <h2 className="text-xl">{city}</h2>
-            <h4>{location}</h4>
+            <h2 className="text-xl">{s.city}</h2>
+            <h4>{s.state}</h4>
             <div className={`p-2 rounded ${alertClass}`}>
-                Severity Level: {severity}
+                Severity Level: {s.severity}
             </div>
-            <p>Assistance Needed: {aidNeeded}</p>
-            <p>Team assinged: {teamName}</p>
+            <p>Description: {s.description}</p>
+            <p>{teamAssigned !== undefined ? (
+                <p>Team assigned: {s.teamAssigned.name}</p>
+            ): (
+                <p>No team assigned</p>
+            )}</p>
+            <p>Resources needed: {s.resources_needed}</p>
         </div>
     );
 };
