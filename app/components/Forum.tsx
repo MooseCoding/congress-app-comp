@@ -8,7 +8,7 @@ const Forum = () => {
 
   // Load posts from backend
   useEffect(() => {
-    fetch("http://172.16.31.135:8000/api/posts")
+    fetch("http://172.16.31.135:3000/posts")
       .then(response => response.json())
       .then(data => setPosts(data));
   }, []);

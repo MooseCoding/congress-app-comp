@@ -7,7 +7,7 @@ const NavBar = () => {
     <header className="w-full bg-gray-800 text-white">
       <nav className="w-full">
         <NavigationMenu>
-          <NavigationMenuList className="flex justify-center text-center space-x-8 py-4">
+          <NavigationMenuList className="flex justify-center space-x-8 py-4">
           <NavigationMenuItem>
               <Link href="/" className="hover:text-gray-400">
                   Home

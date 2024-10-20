@@ -5,6 +5,7 @@ export async function fetchAndSaveAlerts(){
     console.log('new alerts?');
     const db = new DB('weather_events.db');
     const response = await fetch("https://api.weather.gov/alerts/active");
+    
     const data: Features = await response.json();
     const result = await saveAlertEvents(db, data.features); 
 }
@@ -23,10 +24,12 @@ export async function saveAlertEvents(db:DB, events: Features[]) {
     INSERT INTO alerts (event_type, title, description, start_time, end_time, link, location, severity, urgency, headline, entry_time)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
-    const severeAlerts = ["Hurricane Warning", "Tornado Warning", "Flood Warning", "Red Flag Weather"]; 
+
+    const filteredAlerts = [];
+    const severeAlerts = ["Hurricane Warning", "Tornado Warning", "Flood Warning", "Red Flag Weather", "Freeze Warning"]; 
     for (const event of events) {
-        if (!isEventAlready(db, event.properties.effective, event.properties.areaDesc) && severeAlerts.includes(event.properties.event)) {
-            const eventType = event.properties.messageType; 
+        if (severeAlerts.includes(event.properties.event)) {
+            /*const eventType = event.properties.messageType; 
             const title = event.properties.event; 
             const description = event.properties.description;
             const effective = event.properties.effective;
@@ -54,9 +57,28 @@ export async function saveAlertEvents(db:DB, events: Features[]) {
                 ]);
             } catch (error) {
                 console.error("Error inserting data:", error);
-            }
+            }*/  
+
+                filteredAlerts.push({
+                    eventType: event.properties.messageType,
+                    title: event.properties.event,
+                    description: event.properties.description,
+                    effective: event.properties.effective,
+                    expires: event.properties.expires,
+                    web: event.id,
+                    area: event.properties.areaDesc,
+                    severity: event.properties.severity,
+                    urgency: event.properties.urgency,
+                    headline: event.properties.headline,
+                    entryTime: new Date().toISOString()
+                  });
         }
     }
+
+    const filePath = './alerts.json';
+            await Deno.writeTextFile(filePath, JSON.stringify(
+            filteredAlerts, null, 2
+    ));
 }
 
 export async function testSaving() {
