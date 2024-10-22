@@ -18,8 +18,8 @@ const Logo: React.FC = () => {
 	<br />
 	<div style={{backgroundColor:'#2b6978'}} className="rounded-lg">
 	<h2 className="text-lg max-w-lg p-6">    Meet our Team:</h2>
-	<ul className="text-lg max-w-lg  list-disc flex flex-col items-center pl-5 p-6 space-y-3"> 
-		<li>Topher: head of the programming team</li>
+	<ul className="text-lg max-w-lg  list-disc flex flex-col items-center pl-5 p-6 space-y-3 space-x-5"> 
+		<li>Topher: our head coder</li>
 		<li>Katie: our team captain</li>
 		<li>Alexa: our researcher</li>
 		<li>Jessica: our designer</li>

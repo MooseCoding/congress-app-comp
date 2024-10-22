@@ -1,7 +1,7 @@
-import {FC} from 'react';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './ui/accordion';
+import clsx from 'clsx';
+import { FC } from 'react';
 import AlertCard from './AlertCard';
-import clsx from 'clsx'; 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 
 // Define the type for the alert
 interface AlertCardProps {
@@ -15,7 +15,7 @@ interface AlertCardProps {
 
 // Props for the component
 interface CollapsibleMenuProps {
-  type: string; // Type of alert (e.g., "Severe Weather", "Tornado", etc.)
+  type: string; // Type of alert (e.g. "Tornado", etc.)
   alerts; // Array of alerts to display
 }
 
@@ -46,7 +46,7 @@ const AlertCollapsible: FC<CollapsibleMenuProps> = ({ type, alerts }) => {
   return (
     <Accordion type="multiple" className={clsx("w-full border-1-4", format)}>
       <AccordionItem value={type} className={format}>
-      <AccordionTrigger className="text-lg text-center font-bold rounded-lg min-h-[60px] max-w-[800px]">
+      <AccordionTrigger className="text-lg text-center font-bold rounded-lg min-h-[60px]">
           {type} Alerts ({alerts.length})
         </AccordionTrigger>
         <AccordionContent>
