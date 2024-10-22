@@ -240,7 +240,7 @@ const Game = () => {
   };
 
   const handleSubmit = async () => {
-    const response = await fetch('http://172.16.31.135:3000/api/assignments', {
+    const response = await fetch('http://172.16.31.135:3003/api/assignments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

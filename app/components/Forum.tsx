@@ -4,13 +4,31 @@ import { Button } from './ui/Button';
 
 const Forum = () => {
   const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token') || "");
 
-  // Load posts from backend
+  // Load users and posts from local JSON
   useEffect(() => {
-    fetch("http://172.16.31.135:3000/posts")
-      .then(response => response.json())
-      .then(data => setPosts(data));
+    const fetchData = async () => {
+      try {
+        const usersResponse = await fetch('./users.json');
+        const postsResponse = await fetch('./posts.json');
+        
+        if (!usersResponse.ok || !postsResponse.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const usersData = await usersResponse.json();
+        const postsData = await postsResponse.json();
+
+        setUsers(usersData);
+        setPosts(postsData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // Submit a new post
@@ -20,26 +38,23 @@ const Forum = () => {
       return;
     }
 
-    fetch('http://172.16.31.135:8000/api/posts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ title, content })
-    }).then(() => {
-      // Optionally re-fetch posts after creating a new post
-      fetch("http://172.16.31.135:8000/api/posts")
-        .then(response => response.json())
-        .then(data => setPosts(data));
-    });
+    const newPost = {
+      id: posts.length + 1, // Simple ID generation
+      title,
+      content,
+      username: token // Assuming token contains username
+    };
+
+    // Update posts state and reset local JSON (in a real app, you'd save this)
+    setPosts(prevPosts => [...prevPosts, newPost]);
+    alert('Post created successfully!');
   };
 
   return (
     <div className="forum-container" style={{ padding: '20px' }}>
       {/* Sign-on/Sign-up form */}
       <div className="auth-section flex flex-col items-center" style={{ marginBottom: '20px' }}>
-        <SignOnSignUpForm setToken={setToken} />
+        <SignOnSignUpForm setToken={setToken} users={users} />
       </div>
 
       {/* Create a post form */}
@@ -58,7 +73,7 @@ const Forum = () => {
             <p><em>by {post.username}</em></p>
             <p>{post.content}</p>
             {/* Comments Section */}
-            <CommentSection postId={post.id} token={token} />
+            <CommentSection postId={post.id} />
           </div>
         ))}
       </div>
@@ -67,7 +82,7 @@ const Forum = () => {
 };
 
 // Sign-on/Sign-up form component
-const SignOnSignUpForm = ({ setToken }) => {
+const SignOnSignUpForm = ({ setToken, users }) => {
   const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign-in and Sign-up
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -75,49 +90,36 @@ const SignOnSignUpForm = ({ setToken }) => {
 
   // Handle Sign-In
   const handleSignIn = () => {
-    console.log('calling api/login'); 
-    fetch("http://172.16.31.135:8000/api/login", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => {
-      localStorage.setItem('token', data.token);
-      setToken(data.token);
+    const user = users.find(u => u.username === username && u.password === password);
+    if (user) {
+      localStorage.setItem('token', user.username);
+      setToken(user.username);
       setMessage(`Welcome back, ${username}! You are now signed in.`);
-    })
-    .catch(() => setMessage("Sign-in failed, please try again."));
+    } else {
+      setMessage("Sign-in failed, please try again.");
+    }
   };
 
   // Handle Sign-Up
   const handleSignUp = () => {
-    console.log('signup called'); 
-    
-    fetch("http://172.16.31.135:8000/api/signup", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    }).then(response => {
-          // Check if the response is OK
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.json();
-      })
-      .then(data => {
-          console.log(data); 
-          // Assuming the test endpoint does not return a token, adjust accordingly
-          // If it does, replace the line below with how the token is returned
-          localStorage.setItem('token', data.token);
-          setToken(data.token);
-          setMessage(`Response from server: ${data.message}`); // Changed to reflect the test response
-      })
-      .catch(error => {
-          console.error('Fetch error:', error);
-          setMessage("Sign-up failed, please try again.");
-      });
+    const userExists = users.some(u => u.username === username);
+    if (userExists) {
+      setMessage("Username already taken.");
+      return;
+    }
+
+    const newUser = {
+      id: users.length + 1, // Simple ID generation
+      username,
+      password
     };
+
+    // Update users state and reset local JSON (in a real app, you'd save this)
+    users.push(newUser);
+    localStorage.setItem('token', newUser.username);
+    setToken(newUser.username);
+    setMessage(`Welcome, ${username}! You are now signed up.`);
+  };
 
   return (
     <div className="auth-form" style={formStyle}>
@@ -178,37 +180,32 @@ const PostForm = ({ handlePostSubmit }) => {
 };
 
 // Comment section with the ability to add a comment
-const CommentSection = ({ postId, token }) => {
-  const [comments, setComments] = useState([]);
+const CommentSection = ({ postId }) => {
+  const [comments, setComments] = useState([]); // Simulating comments with local data
   const [content, setContent] = useState("");
 
-  // Load comments for the post
+  // Load comments for the post (you can also add a comments.json if needed)
   useEffect(() => {
-    fetch(`http://172.16.31.135:8000/api/posts/${postId}/comments`)
-      .then(response => response.json())
-      .then(data => setComments(data));
+    // For simplicity, you can define comments directly or pull from a comments JSON file.
+    const postComments = [
+      { id: 1, postId: 1, username: 'Gerald1221', content: 'I\'m on my way to help you out!' },
+    ];
+
+    setComments(postComments.filter(comment => comment.postId === postId));
   }, [postId]);
 
   // Submit a new comment
   const handleCommentSubmit = () => {
-    if (!token) {
-      alert('You must be logged in to comment.');
-      return;
-    }
+    const newComment = {
+      id: comments.length + 1, // Simple ID generation
+      postId,
+      username: 'user1', // Hardcoded username for demo purposes, should be dynamic
+      content
+    };
 
-    fetch(`http://172.16.31.135:8000/api/posts/${postId}/comments`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ content })
-    }).then(() => {
-      // Optionally re-fetch comments after adding a new comment
-      fetch(`http://172.16.31.135:8000/api/posts/${postId}/comments`)
-        .then(response => response.json())
-        .then(data => setComments(data));
-    });
+    // Update comments state (in a real app, you'd save this)
+    setComments(prevComments => [...prevComments, newComment]);
+    setContent(""); // Reset input
   };
 
   return (
@@ -220,63 +217,58 @@ const CommentSection = ({ postId, token }) => {
         </div>
       ))}
       {/* Comment input form */}
-      {token && (
-        <div className="comment-form" style={formStyle}>
-          <Input 
-            placeholder="Add a comment" 
-            value={content} 
-            onChange={e => setContent(e.target.value)} 
-            style={inputStyle}
-          />
-          <Button onClick={handleCommentSubmit} style={buttonStyle}>Submit</Button>
-        </div>
-      )}
+      <div className="comment-form" style={formStyle}>
+      <Input
+          placeholder="Add a comment..."
+          value={content}
+          onChange={e => setContent(e.target.value)}
+          style={inputStyle}
+        />
+        <Button onClick={handleCommentSubmit} style={buttonStyle}>
+          Submit Comment
+        </Button>
+      </div>
     </div>
   );
 };
 
-// Styles
+// Styles (you can customize these as needed)
 const formStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '10px',
   padding: '10px',
-  border: '1px solid #ccc',
-  borderRadius: '5px',
-  width: '300px',
-  marginBottom: '20px'
-};
-
-const postCardStyle = {
   border: '1px solid #ddd',
-  padding: '15px',
-  borderRadius: '8px',
-  marginBottom: '20px',
-  backgroundColor: '#f9f9f9'
-};
-
-const commentStyle = {
-  padding: '8px',
-  border: '1px solid #eee',
-  borderRadius: '4px',
-  marginTop: '10px',
-  backgroundColor: '#fafafa'
+  borderRadius: '5px',
+  margin: '10px 0'
 };
 
 const inputStyle = {
+  width: '100%',
   padding: '8px',
+  margin: '5px 0',
   border: '1px solid #ccc',
-  borderRadius: '4px',
-  width: '100%'
+  borderRadius: '4px'
 };
 
 const buttonStyle = {
+  backgroundColor: '#28a745',
+  color: 'white',
   padding: '10px 15px',
-  backgroundColor: '#4CAF50',
-  color: '#fff',
   border: 'none',
-  borderRadius: '4px',
+  borderRadius: '5px',
   cursor: 'pointer'
+};
+
+const postCardStyle = {
+  border: '1px solid #ccc',
+  padding: '15px',
+  borderRadius: '5px',
+  margin: '10px 0',
+};
+
+const commentStyle = {
+  border: '1px solid #eee',
+  padding: '8px',
+  borderRadius: '4px',
+  margin: '5px 0'
 };
 
 export default Forum;

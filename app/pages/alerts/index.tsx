@@ -4,7 +4,7 @@ import AlertsDashboard from '../../components/AlertsDashboard';
 
 export default function Page() {
     return (
-        <div className="flex flex-col items-center">
+        <div>
             <NavBar />
             <AlertsHeader />
             <main className="flex flex-wrap justify-center mt-4">

@@ -52,7 +52,7 @@ const AlertCollapsible: FC<CollapsibleMenuProps> = ({ type, alerts }) => {
         <AccordionContent>
           <div className="grid grid-cols-1 gap-4 flex justify-center">
             {alerts.map((alert) => (
-              <AlertCard key={alert.area} location={alert.area} description={alert.description} title={alert.title} effective={alert.effective} endTime={alert.endTime} severity={alert.severity} />
+              <AlertCard key={alert.area} location={alert.area} description={alert.description} title={alert.title} effective={alert.effective} endTime={alert.expires} severity={alert.severity} />
             ))}
           </div>
         </AccordionContent>

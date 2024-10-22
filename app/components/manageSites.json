@@ -1,0 +1,28 @@
+[
+    {
+      "id": 1,
+      "name": "Site A",
+      "city": "City A",
+      "state": "State A",
+      "type": "Type A",
+      "resources_needed": "Resource 1, Resource 2",
+      "priority": 1,
+      "assistance": "Assistance A",
+      "teamAssigned": null,
+      "severity": 3,
+      "description": "Description of Site A"
+    },
+    {
+      "id": 2,
+      "name": "Site B",
+      "city": "City B",
+      "state": "State B",
+      "type": "Type B",
+      "resources_needed": "Resource 3, Resource 4",
+      "priority": 2,
+      "assistance": "Assistance B",
+      "teamAssigned": null,
+      "severity": 2,
+      "description": "Description of Site B"
+    }
+  ]

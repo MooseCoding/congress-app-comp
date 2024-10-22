@@ -1,10 +1,10 @@
 // components/NavBar.tsx
-import { NavigationMenu, NavigationMenuItem, NavigationMenuList, NavigationMenuLink } from "@/components/ui/navigation-menu";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
 import Link from 'next/link';
 
 const NavBar = () => {
   return (
-    <header className="w-full bg-gray-800 text-white">
+    <header style={{backgroundColor: '#2b6978'}} className="w-full bg-gray-800 text-white">
       <nav className="w-full">
         <NavigationMenu>
           <NavigationMenuList className="flex justify-center space-x-8 py-4">
@@ -24,9 +24,11 @@ const NavBar = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
+              {/*
               <Link href="/management" className="hover:text-gray-400">
                 Management Tools
               </Link>
+              */}
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/game" className="hover:text-gray-400">
@@ -38,8 +40,11 @@ const NavBar = () => {
                 Current Sites
               </Link>
             </NavigationMenuItem>
-            
-            
+            <NavigationMenuItem>
+              <Link href="/tips" className="hover:text-gray-400">
+                  Severe Weather Tips
+              </Link>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </nav>
