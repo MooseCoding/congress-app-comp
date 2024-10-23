@@ -23,12 +23,12 @@ export default function Page() {
             <div  className="flex flex-col items-center">
             
             <main className="flex flex-wrap justify-center mt-4">
-                {/*storms.map((storm) => (
+                {storms.map((storm) => (
                     <StormSeverityCard
                         key={storm.id}
                         s={storm}
                     />
-                ))*/}
+                ))}
             </main>
             </div>
         </div>

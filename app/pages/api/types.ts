@@ -11,13 +11,10 @@ export class Team {
 export interface Site {
     id: number;
     name: string;
-    city: string;
     state: string;
     type: string;
-    resources_needed: string;
     priority: number;
-    assistance: string; 
-    teamAssigned: Team; 
+    aidNeeded: string; 
     severity: number;
     description: string;
 }

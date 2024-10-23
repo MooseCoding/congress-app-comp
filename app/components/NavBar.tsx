@@ -24,13 +24,6 @@ const NavBar = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              {/*
-              <Link href="/management" className="hover:text-gray-400">
-                Management Tools
-              </Link>
-              */}
-            </NavigationMenuItem>
-            <NavigationMenuItem>
               <Link href="/game" className="hover:text-gray-400">
                 Learning Tools
               </Link>

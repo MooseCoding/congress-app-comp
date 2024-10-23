@@ -1,7 +1,7 @@
 // pages/assign.tsx
 import { useState } from 'react';
+import { Site, Team } from '../interfaces';
 import GameCard from './GameCard';
-import { Team, Site } from '../interfaces';
 
 // Sample data for sites and teams
 const sites: Site[] = [
@@ -240,7 +240,7 @@ const Game = () => {
   };
 
   const handleSubmit = async () => {
-    const response = await fetch('http://172.16.31.135:3003/api/assignments', {
+    const response = await fetch('http://172.16.31.135:3001/api/assignments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

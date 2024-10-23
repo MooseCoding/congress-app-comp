@@ -248,6 +248,10 @@ const inputStyle = {
   borderRadius: '4px'
 };
 
+const postInputStyle = {
+  
+};
+
 const buttonStyle = {
   backgroundColor: '#28a745',
   color: 'white',
